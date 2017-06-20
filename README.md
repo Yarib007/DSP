@@ -8,7 +8,7 @@ The signal processing unit consist of a generic digital filter structure, it is 
 
 This class implements a generic discrete filter. This implementation executes a linear system mechanism with feedback and feedforward coefficients in double precision. The mechanism implemented follows the same structure as any straightforward filter code. The filter class is defined in filter.h.
 In the next code is exhibited the filter class definitions and interfaces.
-```
+```C
 typedef struct
 {
     const unsigned char order;  // Filter order
@@ -32,7 +32,7 @@ Filter * Filter_new(const FilterParameters * parameters);
 The encapsulation of data and function members is made by type casting. First, it is allocated memory needed for the bases private class, then it is fulfilled with proper data types (data and function pointers as virtual table); secondly, it is out-casted to a base type class reducing its data member accessibility.
 The following code shows the private implementation.
 
-```
+```C
 typedef struct // class
 {	// public:
 	void   (* reset)  (Filter * obj);
@@ -102,7 +102,7 @@ static void   Filter_delete (Filter ** obj)
 }
 ```
 The filter process is implemented in the following function.
-´´´
+```C
 static double Filter_process(Filter * obj, double u)
 {
     double y = (double)0.0;
@@ -137,7 +137,7 @@ static double Filter_process(Filter * obj, double u)
 ```
 The next code present a factory creation of a filter instance, it is created by using its constructor and destroyed by using its destructor. The filter coefficients have been taken from MATLAB.
 
-´´´
+```C
 #define HIGH_PASS_CUTOFF_FREC_HZ  0.83 
 #define HIGH_PASS_FILTER_ORDER    4 
 
@@ -162,7 +162,7 @@ Filter * filter = Filter_new(&high_pass_filter_parameters);
 ```
 
 The next line of code shows the usage of the filter to process a signal.
-´´´
+```C
 void AnyClass::timerInterruptHandler(void)
 {
 primitiveSignal = Poxi_ADC->read_analog()
@@ -174,7 +174,7 @@ stdIO::fprintf(file, "%.4f  %.4f\n", primitiveSignal, filteredSignal);
 ```
 
 This line of code is used to delete a filter instance.
-´´´
+```C
 filter->delete(&filter);
 ```
 
@@ -185,7 +185,7 @@ For more details about the code implementation it can be referred the actual sou
 
 The composed filter is intended to be an extension of the base filter class and to provide more features. The composed filter basically connects and wraps any number of filter instances, and takes statistics when processing signals. The filter statistics, after the signal processing is one of the most useful feature of this class, and this can be reconfigurable on flight. The composed filter class is defined in composedfilter.h.
 Class definition.
-´´´
+```C
 #include "filter.h"
 
 typedef struct
@@ -237,7 +237,7 @@ ComposedFilter * ComposedFilter_new (int number_of_filters, ...);
 
 The constructor of the class is a variable parameter function, it receives a variable number of filter instances, and the first parameter is the number of filters that will build up the composed filter.
 Here is an example of two filters given to a composed filter, low and high pass filter, giving as a result a band pass filter.
-´´´
+``` C
 ComposedFilter * bandpassFilter;
 Filter *         highpassfilter;
 Filter *         lowpassfilter;
@@ -259,7 +259,7 @@ fprintf(file,"%.10f  %.10f\n", primitiveSignal, filteredSignal);
 ```
 
 Deletion of a composed filter.
-´´´
+```
 bandpassFilter->delete(&bandpassFilter);
 ```
 
