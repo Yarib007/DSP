@@ -15,7 +15,7 @@ typedef struct
     const double *      a_coef; // Feedback filter coefficients
     const double *      b_coef; // Feedforward filter coefficients
 } FilterParameters;
-```
+
 typedef struct Filter_public Filter;
 
 struct Filter_public
@@ -28,7 +28,7 @@ struct Filter_public
 };
 
 Filter * Filter_new(const FilterParameters * parameters);
-
+```
 The encapsulation of data and function members is made by type casting. First, it is allocated memory needed for the bases private class, then it is fulfilled with proper data types (data and function pointers as virtual table); secondly, it is out-casted to a base type class reducing its data member accessibility.
 The following code shows the private implementation.
 
@@ -102,6 +102,7 @@ static void   Filter_delete (Filter ** obj)
 }
 ```
 The filter process is implemented in the following function.
+```
 static double Filter_process(Filter * obj, double u)
 {
     double y = (double)0.0;
@@ -133,9 +134,10 @@ static double Filter_process(Filter * obj, double u)
     }
     return y;
 }
-
+```
 The next code present a factory creation of a filter instance, it is created by using its constructor and destroyed by using its destructor. The filter coefficients have been taken from MATLAB.
 
+´´´
 #define HIGH_PASS_CUTOFF_FREC_HZ  0.83 
 #define HIGH_PASS_FILTER_ORDER    4 
 
@@ -157,8 +159,10 @@ const double B_high_pass [] = {F0_B0, F0_B1, F0_B2, F0_B3, F0_B4};
 const FilterParameters high_pass_filter_parameters = {HIGH_PASS_FILTER_ORDER, A_high_pass, B_high_pass};
 
 Filter * filter = Filter_new(&high_pass_filter_parameters);
+```
 
 The next line of code shows the usage of the filter to process a signal.
+´´´
 void AnyClass::timerInterruptHandler(void)
 {
 primitiveSignal = Poxi_ADC->read_analog()
@@ -167,9 +171,12 @@ filteredSignal = filter->process(filter, primitiveSignal);
 
 stdIO::fprintf(file, "%.4f  %.4f\n", primitiveSignal, filteredSignal);
 }
+```
 
 This line of code is used to delete a filter instance.
+´´´
 filter->delete(&filter);
+```
 
 For more details about the code implementation it can be referred the actual source code.
 
@@ -178,6 +185,7 @@ For more details about the code implementation it can be referred the actual sou
 
 The composed filter is intended to be an extension of the base filter class and to provide more features. The composed filter basically connects and wraps any number of filter instances, and takes statistics when processing signals. The filter statistics, after the signal processing is one of the most useful feature of this class, and this can be reconfigurable on flight. The composed filter class is defined in composedfilter.h.
 Class definition.
+´´´
 #include "filter.h"
 
 typedef struct
@@ -225,9 +233,11 @@ struct ComposedFilter_public // class
 };
 
 ComposedFilter * ComposedFilter_new (int number_of_filters, ...);
+```
 
 The constructor of the class is a variable parameter function, it receives a variable number of filter instances, and the first parameter is the number of filters that will build up the composed filter.
 Here is an example of two filters given to a composed filter, low and high pass filter, giving as a result a band pass filter.
+´´´
 ComposedFilter * bandpassFilter;
 Filter *         highpassfilter;
 Filter *         lowpassfilter;
@@ -246,9 +256,12 @@ filteredSignal = bandpassFilter->process(bandpassFilter, primitiveSignal);
 
 fprintf(file,"%.10f  %.10f\n", primitiveSignal, filteredSignal);
 }
+```
 
 Deletion of a composed filter.
+´´´
 bandpassFilter->delete(&bandpassFilter);
+```
 
 The composed filter is able to obtain statistics when processing a signal.
 Setup of statistics flags. To get proper statistics it is needed to set the sample time used for the design of the discreet filters. The statistics are setup by the usage of the statistics flags.
