@@ -259,7 +259,7 @@ fprintf(file,"%.10f  %.10f\n", primitiveSignal, filteredSignal);
 ```
 
 Deletion of a composed filter.
-```
+```C
 bandpassFilter->delete(&bandpassFilter);
 ```
 
