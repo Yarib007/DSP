@@ -270,7 +270,7 @@ Setup of statistics flags. To get proper statistics it is needed to set the samp
 This DSP is designed, calculated and simulated using MATLAB. The Butterworth filter is the filter type selected for filter coefficients calculation. MATLAB scripts are written to perform automated filter calculations and simulations.
 The Butterworth filter calculation and its step and frequency responses are coded in the script file POXI_INIT.M.
 
-```
+```MATLAB
 clc
 disp('Poxi initialization ...')
 clear
