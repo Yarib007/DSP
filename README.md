@@ -267,4 +267,5 @@ The composed filter is able to obtain statistics when processing a signal.
 Setup of statistics flags. To get proper statistics it is needed to set the sample time used for the design of the discreet filters. The statistics are setup by the usage of the statistics flags.
 
 Best regards,
+
 -Yarib Nevárez
