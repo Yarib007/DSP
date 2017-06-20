@@ -8,14 +8,14 @@ The signal processing unit consist of a generic digital filter structure, it is 
 
 This class implements a generic discrete filter. This implementation executes a linear system mechanism with feedback and feedforward coefficients in double precision. The mechanism implemented follows the same structure as any straightforward filter code. The filter class is defined in filter.h.
 In the next code is exhibited the filter class definitions and interfaces.
-
+```
 typedef struct
 {
     const unsigned char order;  // Filter order
     const double *      a_coef; // Feedback filter coefficients
     const double *      b_coef; // Feedforward filter coefficients
 } FilterParameters;
-
+```
 typedef struct Filter_public Filter;
 
 struct Filter_public
@@ -32,6 +32,7 @@ Filter * Filter_new(const FilterParameters * parameters);
 The encapsulation of data and function members is made by type casting. First, it is allocated memory needed for the bases private class, then it is fulfilled with proper data types (data and function pointers as virtual table); secondly, it is out-casted to a base type class reducing its data member accessibility.
 The following code shows the private implementation.
 
+```
 typedef struct // class
 {	// public:
 	void   (* reset)  (Filter * obj);
@@ -99,7 +100,7 @@ static void   Filter_delete (Filter ** obj)
         *obj = NULL;
     }
 }
-
+```
 The filter process is implemented in the following function.
 static double Filter_process(Filter * obj, double u)
 {
