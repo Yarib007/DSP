@@ -102,7 +102,7 @@ static void   Filter_delete (Filter ** obj)
 }
 ```
 The filter process is implemented in the following function.
-```
+´´´
 static double Filter_process(Filter * obj, double u)
 {
     double y = (double)0.0;
